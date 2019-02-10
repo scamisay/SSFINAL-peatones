@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Desplazamiento Cuadrático Medio en función del tiempo</title>
+</head>
+<body>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-more.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+<div id="container" style="height: 800px; margin: auto; min-width: 510px; max-width: 800px"></div>
+
+<script>
+
+
+    Highcharts.chart('container', {
+        chart: {
+            zoomType: 'xy'
+        },
+        title: {
+            text: 'c - a'
+        },
+        xAxis: {
+            categories: [
+                0.0, 2.480211111131027, 4.960422222262054, 7.440633333393082, 9.920844444524109, 12.401055555655136, 14.881266666786162, 17.36147777791719, 19.841688889048218, 22.321900000179244
+            ],title: {
+                text: 'tiempo (s)',
+                style: {
+                    fontSize:'25px'
+                }
+            },labels: {
+                format: '{value:.2f}',
+                style: {
+                    fontSize:'20px'
+                }
+            }
+        },
+        yAxis: [{ // Primary yAxis
+            labels: {
+                format: '{value}',
+                style: {
+                    fontSize:'20px'
+                }
+            },
+            title: {
+                text: 'peatones que salieron',
+                style: {
+                    fontSize:'25px'
+                }
+            }
+        }, { // Secondary yAxis
+            title: {
+                text: '',
+                style: {
+                    color: Highcharts.getOptions().colors[0]
+                }
+            },
+            labels: {
+                format: '{value} ',
+                style: {
+                    color: Highcharts.getOptions().colors[0]
+                }
+            },
+            opposite: true
+        }],
+
+        tooltip: {
+            shared: true
+        },
+
+        series: [
+            {
+                name: 'curva de descarga',
+                type: 'line',
+                data: [
+                    0.0, 9.0, 24.0, 36.0, 53.0, 68.0, 80.0, 88.0, 96.0, 100.0
+                ],
+                tooltip: {
+                    pointFormat: '<span style="font-weight: bold; color: {series.color}">{series.name}</span>: <b>{point.y:.4f}</b> '
+                }
+            },
+            {
+                name: 'caudal',
+                type: 'line',
+                data: [
+                    0.0, 3.6287233613334693, 4.838297815111292, 4.838297815111292, 5.342287170852052, 5.483404190459465, 5.37588646123477, 5.068692949164211, 4.838297815111292, 4.479905384362308
+                ],
+                tooltip: {
+                    pointFormat: '<span style="font-weight: bold; color: {series.color}">{series.name}</span>: <b>{point.y:.4f}</b> '
+                }
+            }
+        ]
+    });
+</script>
+</body>
+</html>

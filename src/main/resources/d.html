@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Desplazamiento Cuadrático Medio en función del tiempo</title>
+</head>
+<body>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-more.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+<div id="container" style="height: 800px; margin: auto; min-width: 510px; max-width: 800px"></div>
+
+<script>
+
+
+    Highcharts.chart('container', {
+        chart: {
+            zoomType: 'xy'
+        },
+        title: {
+            text: 'd'
+        },
+        xAxis: {
+            categories: [
+                0.8, 1.84, 2.88, 3.92, 4.96, 6.0
+            ],title: {
+                text: 'driven velocity (m/s)',
+                style: {
+                    fontSize:'25px'
+                }
+            },labels: {
+                format: '{value:.2f}',
+                style: {
+                    fontSize:'20px'
+                }
+            }
+        },
+        yAxis: [{ // Primary yAxis
+            labels: {
+                format: '{value}',
+                style: {
+                    fontSize:'20px'
+                }
+            },
+            title: {
+                text: 'tiempo de evacuación (s)',
+                style: {
+                    fontSize:'25px'
+                }
+            }
+        }, { // Secondary yAxis
+            title: {
+                text: '',
+                style: {
+                    color: Highcharts.getOptions().colors[0]
+                }
+            },
+            labels: {
+                format: '{value} ',
+                style: {
+                    color: Highcharts.getOptions().colors[0]
+                }
+            },
+            opposite: true
+        }],
+
+        tooltip: {
+            shared: true
+        },
+
+        series: [
+            {
+                type: 'line',
+                data: [
+                    83.74571666888497, 36.1373333339712, 25.05633333360335, 18.089500000038743, 15.294749999971167, 13.497933333308545
+                ],
+                tooltip: {
+                    pointFormat: '<span style="font-weight: bold; color: {series.color}">{series.name}</span>: <b>{point.y:.4f}</b> '
+                }
+            }, {
+                type: 'errorbar',
+                data: [
+                    [81.475, 86.378], [35.326, 36.576], [23.320, 28.133], [17.963, 18.191], [14.175, 16.012], [13.399, 13.649]
+                ],
+                tooltip: {
+                    pointFormat: '(error range: {point.low:.4f}-{point.high:.4f})<br/>'
+                }
+            }
+        ]
+    });
+</script>
+</body>
+</html>

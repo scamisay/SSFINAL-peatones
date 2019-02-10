@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Desplazamiento Cuadrático Medio en función del tiempo</title>
+</head>
+<body>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-more.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+<div id="container" style="height: 800px; margin: auto; min-width: 510px; max-width: 800px"></div>
+
+<script>
+
+
+    Highcharts.chart('container', {
+        chart: {
+            zoomType: 'xy'
+        },
+        title: {
+            text: 'b - caudal con sliding window N = 3'
+        },
+        xAxis: {
+            categories: [
+                1.224, 1.552, 1.708, 1.893, 2.072, 2.195, 2.344, 2.491, 2.605, 2.717, 2.858, 2.974, 3.106, 3.288, 3.403, 3.564, 3.768, 3.873, 4.020, 4.173, 4.287, 4.430, 4.584, 4.727, 4.835, 4.994, 5.165, 5.292, 5.417, 5.612, 5.751, 5.885, 6.050, 6.169, 6.326, 6.496, 6.660, 6.834, 6.978, 7.177, 7.362, 7.484, 7.654, 7.850, 8.005, 8.153, 8.354, 8.509, 8.674, 8.845, 9.002, 9.174, 9.355, 9.512, 9.658, 9.847, 9.982, 10.152, 10.318, 10.492, 10.725, 10.915, 11.149, 11.345, 11.563, 11.757, 11.929, 12.138, 12.315, 12.594, 12.814, 13.088, 13.352, 13.580, 13.879, 14.122, 14.379, 14.643, 14.943, 15.174, 15.481, 15.743, 15.944, 16.332, 16.591, 16.890, 17.291, 17.596, 18.020, 18.519, 18.805, 19.272, 19.757, 20.360, 20.666, 21.469, 22.049
+            ],title: {
+                text: 'tiempo (s)',
+                style: {
+                    fontSize:'25px'
+                }
+            },labels: {
+                format: '{value:.2f}',
+                style: {
+                    fontSize:'20px'
+                }
+            }
+        },
+        yAxis: [{ // Primary yAxis
+            labels: {
+                format: '{value}',
+                style: {
+                    fontSize:'20px'
+                }
+            },
+            title: {
+                text: 'caudal (peatones/s)',
+                style: {
+                    fontSize:'25px'
+                }
+            }
+        }, { // Secondary yAxis
+            title: {
+                text: '',
+                style: {
+                    color: Highcharts.getOptions().colors[0]
+                }
+            },
+            labels: {
+                format: '{value} ',
+                style: {
+                    color: Highcharts.getOptions().colors[0]
+                }
+            },
+            opposite: true
+        }],
+
+        tooltip: {
+            shared: true
+        },
+
+        series: [
+            {
+                type: 'line',
+                data: [
+                    3.545, 4.863, 5.157, 6.091, 7.059, 7.640, 7.328, 7.287, 7.015, 8.910, 9.280, 9.667, 6.805, 5.599, 5.478, 6.304, 7.051, 7.676, 6.893, 7.803, 6.842, 7.800, 6.863, 6.799, 7.053, 7.857, 6.910, 6.131, 6.456, 6.509, 7.000, 6.359, 7.227, 7.367, 7.329, 6.302, 5.224, 4.937, 6.150, 6.531, 6.683, 5.713, 6.046, 5.697, 5.817, 5.978, 6.242, 6.084, 5.568, 5.989, 6.102, 6.500, 5.782, 5.668, 5.928, 6.434, 7.303, 6.227, 6.318, 4.926, 4.509, 4.163, 4.252, 5.224, 5.217, 5.893, 5.059, 5.225, 4.932, 4.064, 3.854, 3.199, 3.858, 3.986, 4.660, 3.936, 3.545, 3.393, 3.410, 4.032, 3.790, 4.167, 3.774, 3.295, 3.069, 2.735, 2.975, 2.910, 2.576, 2.074, 2.162, 2.241, 2.914, 1.743, 2.070, 1.252, 1.809
+                ],
+                tooltip: {
+                    pointFormat: '<span style="font-weight: bold; color: {series.color}">{series.name}</span>: <b>{point.y:.4f}</b> '
+                }
+            }
+        ]
+    });
+</script>
+</body>
+</html>

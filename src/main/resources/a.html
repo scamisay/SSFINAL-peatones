@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Desplazamiento Cuadrático Medio en función del tiempo</title>
+</head>
+<body>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-more.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+<div id="container" style="height: 800px; margin: auto; min-width: 510px; max-width: 800px"></div>
+
+<script>
+
+
+    Highcharts.chart('container', {
+        chart: {
+            zoomType: 'xy'
+        },
+        title: {
+            text: 'a'
+        },
+        xAxis: {
+            categories: [
+                0.0, 2.4693555555751114, 4.938711111150223, 7.408066666725334, 9.877422222300446, 12.346777777875557, 14.816133333450669, 17.28548888902578, 19.75484444460089, 22.224200000176005
+            ],title: {
+                text: 'tiempo (s)',
+                style: {
+                    fontSize:'25px'
+                }
+            },labels: {
+                format: '{value:.2f}',
+                style: {
+                    fontSize:'20px'
+                }
+            }
+        },
+        yAxis: [{ // Primary yAxis
+            labels: {
+                format: '{value}',
+                style: {
+                    fontSize:'20px'
+                }
+            },
+            title: {
+                text: 'peatones que salieron',
+                style: {
+                    fontSize:'25px'
+                }
+            }
+        }, { // Secondary yAxis
+            title: {
+                text: '',
+                style: {
+                    color: Highcharts.getOptions().colors[0]
+                }
+            },
+            labels: {
+                format: '{value} ',
+                style: {
+                    color: Highcharts.getOptions().colors[0]
+                }
+            },
+            opposite: true
+        }],
+
+        tooltip: {
+            shared: true
+        },
+
+        series: [
+            {
+                type: 'line',
+                data: [
+                    0.0, 9.0, 24.0, 36.0, 53.0, 68.0, 80.0, 88.0, 96.0, 100.0
+                ],
+                tooltip: {
+                    pointFormat: '<span style="font-weight: bold; color: {series.color}">{series.name}</span>: <b>{point.y:.4f}</b> '
+                }
+            }, {
+                type: 'line',
+                data: [
+                    0.0, 14.0, 35.0, 49.0, 62.0, 73.0, 79.0, 88.0, 95.0, 100.0
+                ],
+                tooltip: {
+                    pointFormat: '<span style="font-weight: bold; color: {series.color}">{series.name}</span>: <b>{point.y:.4f}</b> '
+                }
+            },{
+                type: 'line',
+                data: [
+                    0.0, 9.0, 26.0, 44.0, 61.0, 71.0, 82.0, 91.0, 96.0, 100.0
+                ],
+                tooltip: {
+                    pointFormat: '<span style="font-weight: bold; color: {series.color}">{series.name}</span>: <b>{point.y:.4f}</b> '
+                }
+            },{
+                type: 'line',
+                data: [
+                    0.0, 5.0, 29.0, 47.0, 63.0, 75.0, 86.0, 94.0, 98.0, 100.0
+                ],
+                tooltip: {
+                    pointFormat: '<span style="font-weight: bold; color: {series.color}">{series.name}</span>: <b>{point.y:.4f}</b> '
+                }
+            }
+        ]
+    });
+</script>
+</body>
+</html>
