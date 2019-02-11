@@ -60,7 +60,7 @@ public class GranularSystem {
 
             }
             if(updateStatisticalValues ){
-                updateEscapes(t);
+                //updateEscapes(t);
             }
             room.evolveLeapFrog(dt);
 

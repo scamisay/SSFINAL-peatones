@@ -48,8 +48,8 @@ public class Room {
         particles = new ArrayList<>();
         insideSiloArea = new Area(0,bottomPadding+height,width,bottomPadding);
         this.drivenVelocity = drivenVelocity;
-        targetStreet1 = new Vector2D(width/2, 0);
-        targetStreet2 = new Vector2D(width, height/2);
+        targetStreet1 = new Vector2D(width/2., -5);
+        targetStreet2 = new Vector2D(width +5, height/2.);
         this.street1With = street1With;
         this.street2With = street2With;
     }

@@ -291,7 +291,6 @@ public class Particle {
                 new Vector2D(particlePosition.getX(), room.getUpStreet());
                 //new Vector2D(particlePosition.getX(), room.getBottomPadding())
                 //new Vector2D(particlePosition.getX(), room.getHeight()+room.getBottomPadding())
-        ;
 
         return particlePosition.distance(wall) - particleRadius;
         /*return walls.stream()
