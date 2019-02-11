@@ -68,24 +68,49 @@ public class Printer {
         StringBuffer sb = new StringBuffer();
         String format = "%.6f %.6f 0 0 0 0 %.6f 1 0 0";
         double radius = .25;
-        //walls
-        for(double y = room.getBottomPadding(); y <= (room.getHeight()+ room.getBottomPadding()); y+=radius){
-            sb.append(String.format(format, room.getLeftWall(), y, radius)+"\n");
-            sb.append(String.format(format, room.getRightWall(), y, radius)+"\n");
+
+        double y1 = room.getHeight()/2. + room.getStreet2With()/2.;
+        double y2 = room.getHeight()/2. - room.getStreet2With()/2.;
+
+        //------ p1
+        //------ p8
+        for(double x = 0; x < room.getWidth()/2. - room.getStreet1With()/2.; x+=radius){
+            sb.append(String.format(format, x, y1, radius)+"\n");
+            sb.append(String.format(format, x, y2, radius)+"\n");
         }
 
-        //bottom
-        for(double x = room.getLeftWall(); x <= room.getExitStart(); x+=radius){
-            sb.append(String.format(format,x, room.getBottomPadding(), radius)+"\n");
-        }
-        for(double x = room.getExitEnd(); x <= room.getRightWall(); x+=radius){
-            sb.append(String.format(format,x, room.getBottomPadding(), radius)+"\n");
+        //------ p4
+        //------ p5
+        for(double x = room.getWidth()/2. + room.getStreet1With()/2.;
+            x < room.getWidth(); x+=radius){
+            sb.append(String.format(format, x, y1, radius)+"\n");
+            sb.append(String.format(format, x, y2, radius)+"\n");
         }
 
-        //top
-        for(double x = room.getLeftWall(); x <= room.getWidth(); x+=radius){
-            sb.append(String.format(format,x, room.getBottomPadding()+ room.getHeight(), radius)+"\n");
+        double x1 = room.getWidth()/2. + room.getStreet1With()/2.;
+        double x2 = room.getWidth()/2. - room.getStreet1With()/2.;
+
+
+        //| |
+        //| |
+        //| |
+        //p2 p3
+        for(double y = room.getHeight()/2.+ room.getStreet2With()/2.;
+            y < room.getHeight(); y+=radius){
+            sb.append(String.format(format, x1, y, radius)+"\n");
+            sb.append(String.format(format, x2, y, radius)+"\n");
         }
+
+        //| |
+        //| |
+        //| |
+        //p7 p6
+        for(double y = 0;
+            y < room.getHeight()/2. - room.getStreet2With()/2.; y+=radius){
+            sb.append(String.format(format, x1, y, radius)+"\n");
+            sb.append(String.format(format, x2, y, radius)+"\n");
+        }
+
         return sb.toString();
     }
 

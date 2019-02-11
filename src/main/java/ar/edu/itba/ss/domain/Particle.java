@@ -254,9 +254,9 @@ public class Particle {
 
     private Particle createMirroredParticle() {
         Vector2D influence = force.equals(force.getZero())? force: force.normalize();
-        //Vector2D mirroredPos = position.add(influence.scalarMultiply(-overlapWithAWall));
+        //Vector2D mirroredPos = position.add(influence.scalarMultiply(-overlapWithUpperWall));
         Vector2D mirroredPos = new Vector2D(position.getX(),4.98 /*Bottom padding, paja pasarlo como parametro*/);
-        //Vector2D mirroredPosPrev = lastPosition.add(influence.scalarMultiply(overlapWithAWall));
+        //Vector2D mirroredPosPrev = lastPosition.add(influence.scalarMultiply(overlapWithUpperWall));
 
         Particle mirrored = new Particle(mirroredPos, this);
 
@@ -272,7 +272,7 @@ public class Particle {
         return mirrored;
     }
 
-    private boolean overlapWithAWall(Vector2D particlePosition, double particleRadius, Room room) {
+    private boolean overlapWithUpperWall(Vector2D particlePosition, double particleRadius, Room room) {
         //si esta afuera del room o a la altura de la apertura no considero el overlap
         if(/*!room.containsParticle(particlePosition) ||*/ room.isInExitArea(particlePosition.getX())){
             return false;
@@ -281,9 +281,25 @@ public class Particle {
         Vector2D wall =
                 //new Vector2D(room.getLeftWall(), particlePosition.getY()),
                 //new Vector2D(room.getRightWall(), particlePosition.getY()),
-                new Vector2D(particlePosition.getX(), room.getBottomPadding())
+                new Vector2D(room.getHeight()/2.+room.getStreet2With()/2., particlePosition.getY());
+                //new Vector2D(particlePosition.getX(), room.getBottomPadding())
                 //new Vector2D(particlePosition.getX(), room.getHeight()+room.getBottomPadding())
         ;
+
+        return particlePosition.distance(wall) - particleRadius < 0;
+        /*return walls.stream()
+                .mapToDouble( w ->  particlePosition.distance(w) - particleRadius )
+                .min().;*/
+    }
+
+    private boolean overlapWithBottomWall(Vector2D particlePosition, double particleRadius, Room room) {
+        //si esta afuera del room o a la altura de la apertura no considero el overlap
+        if(/*!room.containsParticle(particlePosition) ||*/ room.isInExitArea(particlePosition.getX())){
+            return false;
+        }
+
+        Vector2D wall =
+                new Vector2D(room.getHeight()/2. - room.getStreet2With()/2., particlePosition.getY());
 
         return particlePosition.distance(wall) - particleRadius < 0;
         /*return walls.stream()
@@ -343,11 +359,15 @@ public class Particle {
                 .distinct()
                 .collect(Collectors.toSet());
 
-        if(overlapWithAWall (getPosition(),getRadius(), room) ){
-                Particle opositeParticle = createMirroredParticle();
-                collisionsWithParticles.add(opositeParticle);
+        if(overlapWithUpperWall(getPosition(),getRadius(), room) ){
+            Particle opositeParticle = createMirroredParticle();
+            collisionsWithParticles.add(opositeParticle);
         }
-        if(overlapWithLeft (getPosition(),getRadius(), room) ){
+        if(overlapWithBottomWall(getPosition(), getRadius(), room)){
+            Particle opositeParticle = createMirroredParticle();
+            collisionsWithParticles.add(opositeParticle);
+        }
+        if(overlapWithLeft(getPosition(),getRadius(), room) ){
             Particle opositeParticle = createLeftMirroredParticle(room);
             collisionsWithParticles.add(opositeParticle);
         }
@@ -370,9 +390,9 @@ public class Particle {
 
     private Particle createLeftMirroredParticle(Room room) {
         Vector2D influence = force.equals(force.getZero())? force: force.normalize();
-        //Vector2D mirroredPos = position.add(influence.scalarMultiply(-overlapWithAWall));
+        //Vector2D mirroredPos = position.add(influence.scalarMultiply(-overlapWithUpperWall));
         Vector2D mirroredPos = new Vector2D(room.getLeftWall()-0.02,position.getY() /*Bottom padding, paja pasarlo como parametro*/);
-        //Vector2D mirroredPosPrev = lastPosition.add(influence.scalarMultiply(overlapWithAWall));
+        //Vector2D mirroredPosPrev = lastPosition.add(influence.scalarMultiply(overlapWithUpperWall));
 
         Particle mirrored = new Particle(mirroredPos, this);
 
@@ -390,9 +410,9 @@ public class Particle {
 
     private Particle createRightMirroredParticle(Room room) {
         Vector2D influence = force.equals(force.getZero())? force: force.normalize();
-        //Vector2D mirroredPos = position.add(influence.scalarMultiply(-overlapWithAWall));
+        //Vector2D mirroredPos = position.add(influence.scalarMultiply(-overlapWithUpperWall));
         Vector2D mirroredPos = new Vector2D(room.getRightWall()+0.02,position.getY() /*Bottom padding, paja pasarlo como parametro*/);
-        //Vector2D mirroredPosPrev = lastPosition.add(influence.scalarMultiply(overlapWithAWall));
+        //Vector2D mirroredPosPrev = lastPosition.add(influence.scalarMultiply(overlapWithUpperWall));
 
         Particle mirrored = new Particle(mirroredPos, this);
 
@@ -417,7 +437,7 @@ public class Particle {
         Vector2D wall =
                 //new Vector2D(room.getLeftWall(), particlePosition.getY()),
                 //new Vector2D(room.getRightWall(), particlePosition.getY()),
-                new Vector2D(room.getLeftWall(), particlePosition.getY())
+                new Vector2D(room.getLeftStreet(), particlePosition.getY())
                 //new Vector2D(particlePosition.getX(), room.getHeight()+room.getBottomPadding())
                 ;
 
@@ -435,7 +455,7 @@ public class Particle {
         Vector2D wall =
                 //new Vector2D(room.getLeftWall(), particlePosition.getY()),
                 //new Vector2D(room.getRightWall(), particlePosition.getY()),
-                new Vector2D(room.getRightWall(), particlePosition.getY())
+                new Vector2D(room.getRightStreet(), particlePosition.getY())
                 //new Vector2D(particlePosition.getX(), room.getHeight()+room.getBottomPadding())
                 ;
 

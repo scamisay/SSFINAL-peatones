@@ -198,4 +198,20 @@ public class Room {
     public boolean isSomeoneLeftToEscape() {
         return particles.stream().filter( p -> (p.getPosition().getY() + 4*p.getRadius()) >= getBottomPadding()).count() > 0;
     }
+
+    public double getStreet1With() {
+        return street1With;
+    }
+
+    public double getStreet2With() {
+        return street2With;
+    }
+
+    public double getLeftStreet() {
+        return getWidth()/2. - getStreet1With()/2.;
+    }
+
+    public double getRightStreet() {
+        return getWidth()/2. + getStreet1With()/2.;
+    }
 }
