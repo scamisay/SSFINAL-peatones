@@ -375,28 +375,33 @@ public class Particle {
             collisionsWithParticles.add(opositeParticle);*/
             //setVelocity(velocity.negate());
             //setForce(force.negate());
-            granularForce = granularForce.add(new Vector2D(0,kN*overlapWithUpperWall(getPosition(),getRadius(),room)));
+            granularForce = granularForce.add(new Vector2D(0,kN*overlapWithUpperWall(getPosition(),getRadius(),room)-gamma*
+                    Math.min(0,overlapWithUpperWall(getLastPosition(),getRadius(),room))));
         }else
         if(overlapWithBottomWall(getPosition(), getRadius(), room)<0){
             /*Particle opositeParticle = createMirroredParticle();
             collisionsWithParticles.add(opositeParticle);*/
             //setVelocity(velocity.negate());
             //setForce(force.negate());
-            granularForce = granularForce.add(new Vector2D(0,-kN*overlapWithBottomWall(getPosition(),getRadius(),room)));
+            granularForce = granularForce.add(new Vector2D(0,
+                    -kN*overlapWithBottomWall(getPosition(),getRadius(),room)+gamma*
+                    Math.min(0,overlapWithBottomWall(getLastPosition(),getRadius(),room))));
         }else
         if(overlapWithLeft(getPosition(),getRadius(), room)<0 ){
             /*Particle opositeParticle = createLeftMirroredParticle(room);
             collisionsWithParticles.add(opositeParticle);*/
             //setVelocity(velocity.negate());
             //setForce(force.negate());
-            granularForce = granularForce.add(new Vector2D(-kN*overlapWithLeft(getPosition(),getRadius(),room),0));
+            granularForce = granularForce.add(new Vector2D(-kN*overlapWithLeft(getPosition(),getRadius(),room)+gamma*
+                    Math.min(0,overlapWithLeft(getLastPosition(),getRadius(),room)),0));
         }else
         if(overlapWithRight(getPosition(),getRadius(), room)<0 ){
             /*Particle opositeParticle = createRightMirroredParticle(room);
             collisionsWithParticles.add(opositeParticle);*/
             //setVelocity(velocity.negate());
             //setForce(force.negate());
-            granularForce = granularForce.add(new Vector2D(kN*overlapWithRight(getPosition(),getRadius(),room),0));
+            granularForce = granularForce.add(new Vector2D(kN*overlapWithRight(getPosition(),getRadius(),room)-gamma*
+                    Math.min(0,overlapWithRight(getLastPosition(),getRadius(),room)),0));
         }
         /**
          * calculo de fuerzas
