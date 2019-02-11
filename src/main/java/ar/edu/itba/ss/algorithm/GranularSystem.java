@@ -49,7 +49,7 @@ public class GranularSystem {
 
         /*for (; room.isSomeoneLeftToEscape() && (t < 300) &&
                 ((particleNumbersForStreet1 - egresos.size())>0); t+=dt, i++ ){*/
-        for (; i<2e5; t+=dt, i++ ){
+        for (; i<2.5e5; t+=dt, i++ ){
             if (i % dt2 == 0 ) {
                 if(printer != null){
                     printer.printState(t, room.getParticles());

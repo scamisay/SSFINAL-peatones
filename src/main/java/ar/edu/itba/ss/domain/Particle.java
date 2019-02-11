@@ -253,9 +253,10 @@ public class Particle {
     }
 
     private Particle createMirroredParticle() {
-        Vector2D influence = force.equals(force.getZero())? force: force.normalize();
+        //Vector2D influence = force.equals(force.getZero())? force: force.normalize();
         //Vector2D mirroredPos = position.add(influence.scalarMultiply(-overlapWithUpperWall));
-        Vector2D mirroredPos = new Vector2D(position.getX(),4.98 /*Bottom padding, paja pasarlo como parametro*/);
+        Vector2D mirroredPos = new Vector2D(position.getX(),position.getY());
+        //Vector2D mirroredPos = new Vector2D(position.getX(),4.98 /*Bottom padding, paja pasarlo como parametro*/);
         //Vector2D mirroredPosPrev = lastPosition.add(influence.scalarMultiply(overlapWithUpperWall));
 
         Particle mirrored = new Particle(mirroredPos, this);
@@ -265,8 +266,10 @@ public class Particle {
         //mirrored.setVelocity(velocity.negate());
         //mirrored.setLastPosition(mirroredPos);
 
-        mirrored.setForce(new Vector2D(0,0));
-        mirrored.setVelocity(new Vector2D(0,0));
+        //mirrored.setForce(new Vector2D(0,0));
+        mirrored.setForce(force.negate());
+        //mirrored.setVelocity(new Vector2D(0,0));
+        mirrored.setVelocity(velocity.negate());
         mirrored.setLastPosition(new Vector2D(0,0));
         mirrored.isWall=true;
         return mirrored;
@@ -274,14 +277,18 @@ public class Particle {
 
     private boolean overlapWithUpperWall(Vector2D particlePosition, double particleRadius, Room room) {
         //si esta afuera del room o a la altura de la apertura no considero el overlap
-        if(/*!room.containsParticle(particlePosition) ||*/ room.isInExitArea(particlePosition.getX())){
+        /*if(*//*!room.containsParticle(particlePosition) ||*//* room.isInExitArea(particlePosition.getX())){
+            return false;
+        }*/
+        if(getPosition().getX() < room.getRightStreet() && getPosition().getX() > room.getLeftStreet() ){
             return false;
         }
 
         Vector2D wall =
                 //new Vector2D(room.getLeftWall(), particlePosition.getY()),
                 //new Vector2D(room.getRightWall(), particlePosition.getY()),
-                new Vector2D(room.getHeight()/2.+room.getStreet2With()/2., particlePosition.getY());
+               // new Vector2D(room.getHeight()/2.+room.getStreet2With()/2., particlePosition.getY());
+                new Vector2D(particlePosition.getX(), room.getUpStreet());
                 //new Vector2D(particlePosition.getX(), room.getBottomPadding())
                 //new Vector2D(particlePosition.getX(), room.getHeight()+room.getBottomPadding())
         ;
@@ -293,13 +300,12 @@ public class Particle {
     }
 
     private boolean overlapWithBottomWall(Vector2D particlePosition, double particleRadius, Room room) {
-        //si esta afuera del room o a la altura de la apertura no considero el overlap
-        if(/*!room.containsParticle(particlePosition) ||*/ room.isInExitArea(particlePosition.getX())){
+        if(getPosition().getX() < room.getRightStreet() && getPosition().getX() > room.getLeftStreet() ){
             return false;
         }
 
         Vector2D wall =
-                new Vector2D(room.getHeight()/2. - room.getStreet2With()/2., particlePosition.getY());
+                new Vector2D(getPosition().getX(), room.getDownStreet());
 
         return particlePosition.distance(wall) - particleRadius < 0;
         /*return walls.stream()
@@ -308,7 +314,12 @@ public class Particle {
     }
 
     private Vector2D getNormalVersor(Particle p) {
-        return p.getPosition().subtract(position).normalize();
+        try{
+            Vector2D vecNorm = p.getPosition().subtract(position);
+            return vecNorm.getNorm() <= 0 ? vecNorm : vecNorm.normalize();
+        }catch (Exception e){
+            return null;
+        }
     }
 
     public void resetNeighbours() {
@@ -360,20 +371,28 @@ public class Particle {
                 .collect(Collectors.toSet());
 
         if(overlapWithUpperWall(getPosition(),getRadius(), room) ){
-            Particle opositeParticle = createMirroredParticle();
-            collisionsWithParticles.add(opositeParticle);
-        }
+            /*Particle opositeParticle = createMirroredParticle();
+            collisionsWithParticles.add(opositeParticle);*/
+            setVelocity(velocity.negate());
+            setForce(force.negate());
+        }else
         if(overlapWithBottomWall(getPosition(), getRadius(), room)){
-            Particle opositeParticle = createMirroredParticle();
-            collisionsWithParticles.add(opositeParticle);
-        }
+            /*Particle opositeParticle = createMirroredParticle();
+            collisionsWithParticles.add(opositeParticle);*/
+            setVelocity(velocity.negate());
+            setForce(force.negate());
+        }else
         if(overlapWithLeft(getPosition(),getRadius(), room) ){
-            Particle opositeParticle = createLeftMirroredParticle(room);
-            collisionsWithParticles.add(opositeParticle);
-        }
-        if(overlapWithRight (getPosition(),getRadius(), room) ){
-            Particle opositeParticle = createRightMirroredParticle(room);
-            collisionsWithParticles.add(opositeParticle);
+            /*Particle opositeParticle = createLeftMirroredParticle(room);
+            collisionsWithParticles.add(opositeParticle);*/
+            setVelocity(velocity.negate());
+            setForce(force.negate());
+        }else
+        if(overlapWithRight(getPosition(),getRadius(), room) ){
+            /*Particle opositeParticle = createRightMirroredParticle(room);
+            collisionsWithParticles.add(opositeParticle);*/
+            setVelocity(velocity.negate());
+            setForce(force.negate());
         }
         /**
          * calculo de fuerzas
@@ -430,7 +449,10 @@ public class Particle {
 
     private boolean overlapWithLeft(Vector2D particlePosition, double particleRadius, Room room) {
         //si esta afuera del room o a la altura de la apertura no considero el overlap
-        if(/*!room.containsParticle(particlePosition) ||*/ room.isInExitArea(particlePosition.getX())){
+        /*if(*//*!room.containsParticle(particlePosition) ||*//* room.isInExitArea(particlePosition.getX())){
+            return false;
+        }*/
+        if(getPosition().getY() > room.getDownStreet() && getPosition().getY() < room.getUpStreet()){
             return false;
         }
 
@@ -447,8 +469,7 @@ public class Particle {
                 .min().;*/
     }
     private boolean overlapWithRight(Vector2D particlePosition, double particleRadius, Room room) {
-        //si esta afuera del room o a la altura de la apertura no considero el overlap
-        if(/*!room.containsParticle(particlePosition) ||*/ room.isInExitArea(particlePosition.getX())){
+        if(getPosition().getY() > room.getDownStreet() && getPosition().getY() < room.getUpStreet()){
             return false;
         }
 

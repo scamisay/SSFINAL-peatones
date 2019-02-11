@@ -214,4 +214,13 @@ public class Room {
     public double getRightStreet() {
         return getWidth()/2. + getStreet1With()/2.;
     }
+
+    public double getUpStreet() {
+        return getHeight()/2. + getStreet2With()/2.;
+    }
+
+    public double getDownStreet() {
+        return getHeight()/2. - getStreet2With()/2.;
+    }
+
 }

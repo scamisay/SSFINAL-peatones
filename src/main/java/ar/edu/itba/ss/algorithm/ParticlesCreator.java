@@ -42,11 +42,11 @@ public class ParticlesCreator {
         double y;
 
         if(isStreet1){
-            x = randomBetween(area.getWidth()/2. - streetWith/2., area.getWidth()/2. + streetWith/2.);
+            x = randomBetween(area.getWidth()/2. - streetWith/2. + radius, area.getWidth()/2. + streetWith/2. - radius);
             y = randomBetween(area.getHeight()*4./5, area.getHeight() - radius);
         }else {
             x = randomBetween(radius, area.getWidth()*1./5);
-            y = randomBetween(area.getHeight()/2.-streetWith/2., area.getHeight()/2.+streetWith/2.);
+            y = randomBetween(area.getHeight()/2. - streetWith/2. + radius, area.getHeight()/2. + streetWith/2. - radius);
         }
 
         return new Vector2D(x,y);

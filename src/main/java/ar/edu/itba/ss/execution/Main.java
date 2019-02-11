@@ -13,8 +13,7 @@ public class Main {
     //tiempos de simulacion
     private static final double DT = 5e-5;
     private static final long DT2 = (long)5e2;
-
-    private static final int PARTICLE_NUMBER_ST1 = 50;
+    private static final int PARTICLE_NUMBER_ST1 = 40;
     private static final int PARTICLE_NUMBER_ST2 = 40;
 
     public static void main(String[] args) {
